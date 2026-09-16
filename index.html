@@ -9,9 +9,9 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
         body {
-            background-color: #04070b;
+            background-color: #040810; /* 大屏同款深色背景 */
             color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -20,37 +20,22 @@
             padding: 24px;
             position: relative;
             overflow: hidden;
+            /* 模拟大屏的科技感背景 */
             background-image: 
-                radial-gradient(circle at 50% 20%, rgba(13, 39, 24, 0.8) 0%, #04070b 60%),
-                linear-gradient(rgba(91, 251, 44, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(91, 251, 44, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 30px 30px, 30px 30px;
-        }
-
-        .slash-deco {
-            display: flex;
-            gap: 6px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .slash-deco span {
-            display: block;
-            width: 8px;
-            height: 18px;
-            background: #5bfb2c;
-            transform: skewX(-30deg);
-            box-shadow: 0 0 10px rgba(91, 251, 44, 0.6);
+                radial-gradient(circle at 50% 30%, #0b253a 0%, #040810 75%),
+                linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 20px;
         }
 
         .header { text-align: center; margin-bottom: 30px; width: 100%; }
         .sub-logo { 
-            font-size: 12px; 
-            letter-spacing: 2px; 
-            color: #5bfb2c; 
+            font-size: 14px; 
+            letter-spacing: 3px; 
+            color: #00f0ff; /* 青色 */
             font-weight: 700; 
             text-transform: uppercase; 
-            margin-bottom: 12px;
-            text-shadow: 0 0 8px rgba(91, 251, 44, 0.5);
+            margin-bottom: 8px;
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
         }
         .title-cn { 
             font-size: 26px; 
@@ -58,86 +43,77 @@
             color: #fff; 
             letter-spacing: 1px;
             margin-bottom: 6px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
         }
         .title-en { 
             font-size: 13px; 
-            color: #a0aec0; 
+            color: #8a9ba8; 
             letter-spacing: 1px; 
-            text-transform: uppercase;
         }
 
+        /* 表单卡片：与大屏 AI 摘要框风格统一 */
         .form-card {
             width: 100%;
             max-width: 420px;
-            background: rgba(6, 12, 18, 0.85);
-            border: 1px solid rgba(91, 251, 44, 0.25);
-            border-radius: 12px;
+            background: rgba(8, 20, 36, 0.9); /* 深蓝半透明 */
+            border: 2px solid #00f0ff; /* 青色边框 */
+            border-radius: 10px;
             padding: 30px 24px;
             position: relative;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(91, 251, 44, 0.05);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3); /* 青色外发光 */
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
         }
-        
-        .form-card::before, .form-card::after {
-            content: '';
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            border: 2px solid #5bfb2c;
-        }
-        .form-card::before { top: -1px; left: -1px; border-right: none; border-bottom: none; border-radius: 12px 0 0 0; }
-        .form-card::after { bottom: -1px; right: -1px; border-left: none; border-top: none; border-radius: 0 0 12px 0; }
 
-        .label-cn { font-size: 16px; font-weight: 700; color: #5bfb2c; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
+        .label-cn { font-size: 16px; font-weight: 700; color: #00f0ff; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
         .label-en { font-size: 11px; color: #718096; margin-bottom: 18px; display: block; }
         
         .input-group { position: relative; margin-bottom: 24px; }
         
-        /* 替换成 textarea 样式，并实现高度自适应 */
+        /* 输入框样式 */
         textarea {
             width: 100%;
             padding: 16px 18px;
             font-size: 17px;
-            font-family: inherit; /* 继承字体 */
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            font-family: inherit;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 240, 255, 0.3);
             border-radius: 8px;
             color: #fff;
             outline: none;
             transition: all 0.3s ease;
-            resize: none; /* 禁止手动拖动改变大小 */
-            min-height: 56px; /* 保持原始单行高度 */
+            resize: none;
+            min-height: 56px;
             line-height: 1.5;
-            overflow-y: hidden; /* 隐藏滚动条，完全靠自动增高 */
+            overflow-y: hidden;
         }
-        textarea::placeholder { color: rgba(255, 255, 255, 0.2); font-size: 15px; }
+        textarea::placeholder { color: rgba(0, 240, 255, 0.3); font-size: 15px; }
         textarea:focus { 
-            border-color: #5bfb2c; 
-            background: rgba(91, 251, 44, 0.05);
-            box-shadow: 0 0 15px rgba(91, 251, 44, 0.2), inset 0 0 10px rgba(91, 251, 44, 0.1); 
+            border-color: #00f0ff; 
+            background: rgba(0, 240, 255, 0.05);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.1); 
         }
         
+        /* 提交按钮：青色调渐变 */
         button {
             width: 100%;
             padding: 16px;
             font-size: 17px;
             font-weight: 800;
             letter-spacing: 2px;
-            background: linear-gradient(135deg, #5bfb2c 0%, #00ab30 100%);
+            background: linear-gradient(135deg, #00f0ff 0%, #0072ff 100%);
             color: #000;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(91, 251, 44, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4);
             transition: all 0.3s ease;
         }
         button:active {
             transform: scale(0.98);
-            box-shadow: 0 2px 10px rgba(91, 251, 44, 0.4);
+            box-shadow: 0 2px 10px rgba(0, 240, 255, 0.5);
         }
         button::after {
             content: '';
@@ -156,21 +132,22 @@
             margin-top: 40px;
             letter-spacing: 0.5px;
         }
-        .footer span { color: #5bfb2c; font-weight: 600; }
+        .footer span { color: #00f0ff; font-weight: 600; }
 
+        /* 自定义Toast提示 */
         .toast {
             position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: rgba(6, 18, 10, 0.95);
-            border: 1px solid #5bfb2c;
+            background: rgba(6, 18, 30, 0.95);
+            border: 2px solid #00f0ff;
             color: #fff;
             padding: 14px 24px;
             border-radius: 30px;
             font-size: 14px;
             font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(91, 251, 44, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.3);
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 999;
@@ -184,7 +161,7 @@
         }
         .toast::before {
             content: '✓';
-            color: #5bfb2c;
+            color: #00f0ff; /* 青色打勾 */
             font-weight: 900;
         }
     </style>
@@ -192,19 +169,18 @@
 <body>
 
     <div class="header">
-        <div class="slash-deco"><span></span><span></span><span></span></div>
-        <div class="sub-logo">Valeo | 漕河泾AI加速器</div>
+        <div class="sub-logo">VALEO | 漕河泾AI加速器</div>
         <div class="title-cn">2026 法雷奥中国区人工智能挑战赛</div>
-        <div class="title-en">China AI Challenge</div>
+        <div class="title-en">China AI Challenge — 从学到用，打造你的AI智能助理</div>
     </div>
 
     <div class="form-card">
-        <label class="label-cn">请写下对今天大赛的 1 个期望词</label>
-        <label class="label-en">Enter your expectation word for today's contest</label>
+        <label class="label-cn">请写下对今天大赛的期望</label>
+        <label class="label-en">Enter your expectation for today's contest</label>
         
         <div class="input-group">
-            <!-- 这里变成了 textarea，移除了 maxlength 限制，改为自适应 -->
-            <textarea id="wordInput" placeholder="例如：落地 / 真价值 / 颠覆" rows="1" autocomplete="off"></textarea>
+            <!-- textarea 实现自动增高 -->
+            <textarea id="wordInput" placeholder="例如：落地 / 真价值 / Business Value" rows="1" autocomplete="off"></textarea>
         </div>
         
         <button onclick="submitWord()">提交至大屏 / Submit</button>
@@ -218,6 +194,7 @@
     <div id="toast" class="toast">提交成功！已发送至大屏</div>
 
     <script>
+        // 初始化GoEasy
         const goeasy = GoEasy.getInstance({
             host: "hangzhou.goeasy.io",
             appkey: "BC-57a1ffbd3efe46e68ad1e5e06cdbbd4b",
@@ -234,17 +211,17 @@
             }, 2500);
         }
 
-        // 【新功能】输入框高度自动适应
+        // 输入框高度自动适应
         const tx = document.getElementById('wordInput');
         tx.addEventListener('input', function() {
-            this.style.height = 'auto'; // 先重置高度
-            this.style.height = (this.scrollHeight) + 'px'; // 根据内容撑开高度
+            this.style.height = 'auto'; 
+            this.style.height = (this.scrollHeight) + 'px'; 
         });
 
         function submitWord() {
             const val = document.getElementById('wordInput').value.trim();
             if(!val) {
-                showToast("请输入你的期望词哦~");
+                showToast("请输入你的期望哦~");
                 return;
             }
 
@@ -259,7 +236,7 @@
                     showToast("提交成功！已发送至大屏");
                     const input = document.getElementById('wordInput');
                     input.value = '';
-                    input.style.height = '56px'; // 提交后恢复初始高度
+                    input.style.height = '56px'; 
                     btn.innerText = '提交至大屏 / Submit';
                     btn.style.opacity = '1';
                 },
@@ -270,15 +247,6 @@
                 }
             });
         }
-        
-        // 优化回车键：输入英文长句子时，回车用来换行；如果要提交，按 Ctrl+Enter 或者点击按钮
-        document.getElementById('wordInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
-                // 如果是手机键盘，回车通常是换行（因为输入长句子需要换行）
-                // 如果想支持手机端直接回车提交，可以把下面这行去掉注释：
-                // e.preventDefault(); submitWord();
-            }
-        });
     </script>
 </body>
 </html>
