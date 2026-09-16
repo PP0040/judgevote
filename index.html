@@ -249,4 +249,251 @@
         }
     </script>
 </body>
+</html><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 法雷奥人工智能挑战赛 - 评委期望提交</title>
+    <script src="https://cdn.goeasy.io/goeasy-2.8.8.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            background-color: #040810;
+            color: #ffffff;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 50% 30%, #0b253a 0%, #040810 75%),
+                linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 20px;
+        }
+
+        .header { text-align: center; margin-bottom: 30px; width: 100%; }
+        .sub-logo { 
+            font-size: 14px; 
+            letter-spacing: 3px; 
+            color: #00f0ff; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            margin-bottom: 8px;
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+        }
+        .title-cn { 
+            font-size: 26px; 
+            font-weight: 900; 
+            color: #fff; 
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+            line-height: 1.4; 
+        }
+        .title-en { 
+            font-size: 13px; 
+            color: #8a9ba8; 
+            letter-spacing: 1px; 
+        }
+
+        .form-card {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(8, 20, 36, 0.9);
+            border: 2px solid #00f0ff;
+            border-radius: 10px;
+            padding: 30px 24px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            margin-bottom: 0;
+        }
+
+        .label-cn { 
+            font-size: 18px;      
+            font-weight: 900;     
+            color: #00f0ff; 
+            margin-bottom: 8px; 
+            display: block; 
+            letter-spacing: 0.5px; 
+        }
+        
+        /* 【修改点】英文标签明显放大、提亮、加粗 */
+        .label-en { 
+            font-size: 15px;          /* 从11px放大到15px */
+            color: #e0faff;           /* 改成发白的高亮青色 */
+            font-weight: 600;         /* 增加粗细 */
+            letter-spacing: 0.5px;    /* 增加字间距 */
+            margin-bottom: 18px; 
+            display: block; 
+            text-shadow: 0 0 5px rgba(0, 240, 255, 0.3); /* 加上轻微发光 */
+        }
+        
+        .input-group { position: relative; margin-bottom: 24px; }
+        
+        textarea {
+            width: 100%;
+            padding: 16px 18px;
+            font-size: 17px;
+            font-family: inherit;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            outline: none;
+            transition: all 0.3s ease;
+            resize: none;
+            min-height: 56px;
+            line-height: 1.5;
+            overflow-y: hidden;
+        }
+        textarea::placeholder { color: rgba(0, 240, 255, 0.3); font-size: 15px; }
+        textarea:focus { 
+            border-color: #00f0ff; 
+            background: rgba(0, 240, 255, 0.05);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.1); 
+        }
+        
+        button {
+            width: 100%;
+            padding: 16px;
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #00f0ff 0%, #0072ff 100%);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+        button:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 10px rgba(0, 240, 255, 0.5);
+        }
+        button::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: all 0.5s;
+        }
+        button:hover::after { left: 100%; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(6, 18, 30, 0.95);
+            border: 2px solid #00f0ff;
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.3);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        .toast::before {
+            content: '✓';
+            color: #00f0ff;
+            font-weight: 900;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="sub-logo">VALEO | 漕河泾AI加速器</div>
+        <div class="title-cn">2026 法雷奥中国区<br>人工智能挑战赛</div>
+        <div class="title-en">China AI Challenge — 从学到用，打造你的AI智能助理</div>
+    </div>
+
+    <div class="form-card">
+        <label class="label-cn">请写下对今天大赛的期望词</label>
+        <label class="label-en">Enter your expectation for today's contest</label>
+        
+        <div class="input-group">
+            <textarea id="wordInput" placeholder="例如：落地 / 真价值 / Business Value" rows="1" autocomplete="off"></textarea>
+        </div>
+        
+        <button onclick="submitWord()">提交至大屏 / Submit</button>
+    </div>
+
+    <div id="toast" class="toast">提交成功！已发送至大屏</div>
+
+    <script>
+        const goeasy = GoEasy.getInstance({
+            host: "hangzhou.goeasy.io",
+            appkey: "BC-57a1ffbd3efe46e68ad1e5e06cdbbd4b",
+            modules: ['pubsub']
+        });
+        goeasy.connect({});
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        const tx = document.getElementById('wordInput');
+        tx.addEventListener('input', function() {
+            this.style.height = 'auto'; 
+            this.style.height = (this.scrollHeight) + 'px'; 
+        });
+
+        function submitWord() {
+            const val = document.getElementById('wordInput').value.trim();
+            if(!val) {
+                showToast("请输入你的期望哦~");
+                return;
+            }
+
+            const btn = document.querySelector('button');
+            btn.innerText = '发送中...';
+            btn.style.opacity = '0.7';
+
+            goeasy.pubsub.publish({
+                channel: "judge_words",
+                message: val,
+                onSuccess: () => {
+                    showToast("提交成功！已发送至大屏");
+                    const input = document.getElementById('wordInput');
+                    input.value = '';
+                    input.style.height = '56px'; 
+                    btn.innerText = '提交至大屏 / Submit';
+                    btn.style.opacity = '1';
+                },
+                onFailed: (error) => {
+                    showToast("网络异常，请重试");
+                    btn.innerText = '提交至大屏 / Submit';
+                    btn.style.opacity = '1';
+                }
+            });
+        }
+    </script>
+</body>
 </html>
