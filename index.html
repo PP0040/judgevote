@@ -20,7 +20,6 @@
             padding: 24px;
             position: relative;
             overflow: hidden;
-            /* 模拟海报的科技感背景 */
             background-image: 
                 radial-gradient(circle at 50% 20%, rgba(13, 39, 24, 0.8) 0%, #04070b 60%),
                 linear-gradient(rgba(91, 251, 44, 0.03) 1px, transparent 1px),
@@ -28,7 +27,6 @@
             background-size: 100% 100%, 30px 30px, 30px 30px;
         }
 
-        /* 装饰斜线元素 */
         .slash-deco {
             display: flex;
             gap: 6px;
@@ -44,7 +42,6 @@
             box-shadow: 0 0 10px rgba(91, 251, 44, 0.6);
         }
 
-        /* 头部区域 */
         .header { text-align: center; margin-bottom: 30px; width: 100%; }
         .sub-logo { 
             font-size: 12px; 
@@ -70,7 +67,6 @@
             text-transform: uppercase;
         }
 
-        /* 表单卡片：科技感+玻璃态 */
         .form-card {
             width: 100%;
             max-width: 420px;
@@ -84,7 +80,6 @@
             -webkit-backdrop-filter: blur(10px);
         }
         
-        /* 卡片四角装饰 */
         .form-card::before, .form-card::after {
             content: '';
             position: absolute;
@@ -99,19 +94,26 @@
         .label-en { font-size: 11px; color: #718096; margin-bottom: 18px; display: block; }
         
         .input-group { position: relative; margin-bottom: 24px; }
-        input {
+        
+        /* 替换成 textarea 样式，并实现高度自适应 */
+        textarea {
             width: 100%;
             padding: 16px 18px;
             font-size: 17px;
+            font-family: inherit; /* 继承字体 */
             background: rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 8px;
             color: #fff;
             outline: none;
             transition: all 0.3s ease;
+            resize: none; /* 禁止手动拖动改变大小 */
+            min-height: 56px; /* 保持原始单行高度 */
+            line-height: 1.5;
+            overflow-y: hidden; /* 隐藏滚动条，完全靠自动增高 */
         }
-        input::placeholder { color: rgba(255, 255, 255, 0.2); font-size: 15px; }
-        input:focus { 
+        textarea::placeholder { color: rgba(255, 255, 255, 0.2); font-size: 15px; }
+        textarea:focus { 
             border-color: #5bfb2c; 
             background: rgba(91, 251, 44, 0.05);
             box-shadow: 0 0 15px rgba(91, 251, 44, 0.2), inset 0 0 10px rgba(91, 251, 44, 0.1); 
@@ -156,7 +158,6 @@
         }
         .footer span { color: #5bfb2c; font-weight: 600; }
 
-        /* 自定义Toast提示 */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -202,7 +203,8 @@
         <label class="label-en">Enter your expectation word for today's contest</label>
         
         <div class="input-group">
-            <input id="wordInput" placeholder="例如：落地 / 真价值 / 颠覆" maxlength="8" autocomplete="off">
+            <!-- 这里变成了 textarea，移除了 maxlength 限制，改为自适应 -->
+            <textarea id="wordInput" placeholder="例如：落地 / 真价值 / 颠覆" rows="1" autocomplete="off"></textarea>
         </div>
         
         <button onclick="submitWord()">提交至大屏 / Submit</button>
@@ -213,11 +215,9 @@
         From Learning to Application: Building Your AI Assistant
     </div>
 
-    <!-- 自定义轻提示 -->
     <div id="toast" class="toast">提交成功！已发送至大屏</div>
 
     <script>
-        // 初始化GoEasy
         const goeasy = GoEasy.getInstance({
             host: "hangzhou.goeasy.io",
             appkey: "BC-57a1ffbd3efe46e68ad1e5e06cdbbd4b",
@@ -225,7 +225,6 @@
         });
         goeasy.connect({});
 
-        // 自定义Toast提示方法
         function showToast(msg) {
             const toast = document.getElementById('toast');
             toast.innerText = msg;
@@ -235,7 +234,13 @@
             }, 2500);
         }
 
-        // 提交逻辑
+        // 【新功能】输入框高度自动适应
+        const tx = document.getElementById('wordInput');
+        tx.addEventListener('input', function() {
+            this.style.height = 'auto'; // 先重置高度
+            this.style.height = (this.scrollHeight) + 'px'; // 根据内容撑开高度
+        });
+
         function submitWord() {
             const val = document.getElementById('wordInput').value.trim();
             if(!val) {
@@ -243,7 +248,6 @@
                 return;
             }
 
-            // 可以在这里加点按钮防抖逻辑
             const btn = document.querySelector('button');
             btn.innerText = '发送中...';
             btn.style.opacity = '0.7';
@@ -253,7 +257,9 @@
                 message: val,
                 onSuccess: () => {
                     showToast("提交成功！已发送至大屏");
-                    document.getElementById('wordInput').value = '';
+                    const input = document.getElementById('wordInput');
+                    input.value = '';
+                    input.style.height = '56px'; // 提交后恢复初始高度
                     btn.innerText = '提交至大屏 / Submit';
                     btn.style.opacity = '1';
                 },
@@ -265,10 +271,12 @@
             });
         }
         
-        // 回车键提交支持
+        // 优化回车键：输入英文长句子时，回车用来换行；如果要提交，按 Ctrl+Enter 或者点击按钮
         document.getElementById('wordInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                submitWord();
+            if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
+                // 如果是手机键盘，回车通常是换行（因为输入长句子需要换行）
+                // 如果想支持手机端直接回车提交，可以把下面这行去掉注释：
+                // e.preventDefault(); submitWord();
             }
         });
     </script>
