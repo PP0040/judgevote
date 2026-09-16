@@ -3,21 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>评委期望提交</title>
+    <title>2026 法雷奥人工智能挑战赛 - 评委期望提交</title>
     <script src="https://cdn.goeasy.io/goeasy-2.8.8.min.js"></script>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 40px 20px; background: #f4f5f7; }
-        input { width: 80%; padding: 12px; font-size: 18px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 20px; }
-        button { width: 85%; padding: 12px; font-size: 18px; background: #00f0ff; color: #000; font-weight: bold; border: none; border-radius: 8px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #06090e;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 30px 24px;
+            background-image: radial-gradient(circle at 50% 30%, #0d2718 0%, #06090e 70%);
+        }
+        .header { text-align: center; margin-top: 20px; }
+        .sub-logo { font-size: 13px; letter-spacing: 2px; color: #5bfb2c; font-weight: 600; text-transform: uppercase; margin-bottom: 8px; }
+        .title-cn { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+        .title-en { font-size: 14px; color: #a0aec0; letter-spacing: 1px; }
+       
+        .form-box { margin: 40px 0; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(91, 251, 44, 0.3); border-radius: 16px; padding: 24px; box-shadow: 0 0 20px rgba(91, 251, 44, 0.05); }
+        .label-cn { font-size: 16px; font-weight: 600; color: #5bfb2c; margin-bottom: 4px; display: block; }
+        .label-en { font-size: 12px; color: #718096; margin-bottom: 16px; display: block; }
+       
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 16px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            outline: none;
+            transition: all 0.3s;
+        }
+        input:focus { border-color: #5bfb2c; box-shadow: 0 0 10px rgba(91, 251, 44, 0.3); }
+       
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #5bfb2c 0%, #00ab30 100%);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(91, 251, 44, 0.4);
+        }
+       
+        .footer { text-align: center; font-size: 12px; color: #4a5568; line-height: 1.6; }
     </style>
 </head>
 <body>
-    <h2>请输入对大赛的 1 个期望词</h2>
-    <input id="wordInput" placeholder="如：落地、真价值" maxlength="6">
-    <button onclick="submitWord()">提交大屏</button>
+    <div class="header">
+        <div class="sub-logo">Valeo | 漕河泾AI加速器</div>
+        <div class="title-cn">2026 法雷奥中国区人工智能挑战赛</div>
+        <div class="title-en">China AI Challenge</div>
+    </div>
+
+    <div class="form-box">
+        <label class="label-cn">请写下对今天大赛的 1 个期望词</label>
+        <label class="label-en">Enter your expectation word for today's contest</label>
+        <input id="wordInput" placeholder="例如：落地 / 真价值 / 颠覆" maxlength="8">
+        <button onclick="submitWord()">提交至大屏 / Submit</button>
+    </div>
+
+    <div class="footer">
+        从学到用，打造你的AI智能助理<br>
+        From Learning to Application: Building Your AI Assistant
+    </div>
 
     <script>
-        // 替换为与大屏相同的 Appkey
         const goeasy = GoEasy.getInstance({
             host: "hangzhou.goeasy.io",
             appkey: "BC-57a1ffbd3efe46e68ad1e5e06cdbbd4b",
@@ -29,12 +88,11 @@
             const val = document.getElementById('wordInput').value.trim();
             if(!val) return;
 
-            // 向大屏发送数据
             goeasy.pubsub.publish({
                 channel: "judge_words",
                 message: val,
                 onSuccess: () => {
-                    alert("提交成功！已实时发送至大屏");
+                    alert("提交成功！已发送至大屏 / Submitted successfully!");
                     document.getElementById('wordInput').value = '';
                 }
             });
@@ -42,6 +100,3 @@
     </script>
 </body>
 </html>
-
-
-
