@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>评委期望提交</title>
+    <script src="https://cdn.goeasy.io/goeasy-2.8.8.min.js"></script>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 40px 20px; background: #f4f5f7; }
+        input { width: 80%; padding: 12px; font-size: 18px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 20px; }
+        button { width: 85%; padding: 12px; font-size: 18px; background: #00f0ff; color: #000; font-weight: bold; border: none; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h2>请输入对大赛的 1 个期望词</h2>
+    <input id="wordInput" placeholder="如：落地、真价值" maxlength="6">
+    <button onclick="submitWord()">提交大屏</button>
+
+    <script>
+        // 替换为与大屏相同的 Appkey
+        const goeasy = GoEasy.getInstance({
+            host: "hangzhou.goeasy.io",
+            appkey: "BC-57a1ffbd3efe46e68ad1e5e06cdbbd4b",
+            modules: ['pubsub']
+        });
+        goeasy.connect({});
+
+        function submitWord() {
+            const val = document.getElementById('wordInput').value.trim();
+            if(!val) return;
+
+            // 向大屏发送数据
+            goeasy.pubsub.publish({
+                channel: "judge_words",
+                message: val,
+                onSuccess: () => {
+                    alert("提交成功！已实时发送至大屏");
+                    document.getElementById('wordInput').value = '';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+
