@@ -49,7 +49,7 @@
             font-size: 13px; 
             color: #8a9ba8; 
             letter-spacing: 1px; 
-            line-height: 1.6; /* 新增：让两行英文之间的距离更舒服 */
+            line-height: 1.6;
         }
 
         .form-card {
@@ -139,6 +139,7 @@
         }
         button:hover::after { left: 100%; }
 
+        /* 🚀 优化后的自定义 Toast 提示框：一排显示，自适应 */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -147,10 +148,11 @@
             background: rgba(6, 18, 30, 0.95);
             border: 2px solid #00f0ff;
             color: #fff;
-            padding: 14px 24px;
+            width: max-content;
+            max-width: calc(100vw - 40px);
+            white-space: nowrap;
+            padding: 14px 28px;
             border-radius: 30px;
-            font-size: 14px;
-            font-weight: 600;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.3);
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -167,6 +169,14 @@
             content: '✓';
             color: #00f0ff;
             font-weight: 900;
+            font-size: 16px;
+        }
+        .toast-text-en {
+            display: block;
+            font-size: 11px;
+            color: #8a9ba8;
+            margin-top: 2px;
+            font-style: italic;
         }
     </style>
 </head>
@@ -175,7 +185,6 @@
     <div class="header">
         <div class="sub-logo">VALEO | 漕河泾AI加速器</div>
         <div class="title-cn">2026 法雷奥中国区<br>人工智能挑战赛</div>
-        <!-- 修改点在这里：加上了 <br> -->
         <div class="title-en">China AI Challenge <br>从学到用，打造你的AI智能助理</div>
     </div>
 
@@ -190,7 +199,13 @@
         <button onclick="submitWord()">提交至大屏 / Submit</button>
     </div>
 
-    <div id="toast" class="toast">提交成功！已发送至大屏</div>
+    <!-- 优化的双语 Toast -->
+    <div id="toast" class="toast">
+        <div>
+            <span>提交成功！已发送至大屏</span>
+            <span class="toast-text-en">Submitted successfully! Sent to main screen.</span>
+        </div>
+    </div>
 
     <script>
         const goeasy = GoEasy.getInstance({
@@ -200,9 +215,15 @@
         });
         goeasy.connect({});
 
-        function showToast(msg) {
+        function showToast(msgCN, msgEN) {
             const toast = document.getElementById('toast');
-            toast.innerText = msg;
+            // 这里为了适配可能出现的错误提示，把内部的内容结构重新渲染一下
+            toast.innerHTML = `
+                <div>
+                    <span>${msgCN}</span>
+                    <span class="toast-text-en">${msgEN}</span>
+                </div>
+            `;
             toast.classList.add('show');
             setTimeout(() => {
                 toast.classList.remove('show');
@@ -218,7 +239,7 @@
         function submitWord() {
             const val = document.getElementById('wordInput').value.trim();
             if(!val) {
-                showToast("请输入你的期望哦~");
+                showToast("请输入你的期望哦~", "Please enter your expectation!");
                 return;
             }
 
@@ -230,7 +251,7 @@
                 channel: "judge_words",
                 message: val,
                 onSuccess: () => {
-                    showToast("提交成功！已发送至大屏");
+                    showToast("提交成功！已发送至大屏", "Submitted successfully! Sent to main screen.");
                     const input = document.getElementById('wordInput');
                     input.value = '';
                     input.style.height = '56px'; 
@@ -238,7 +259,7 @@
                     btn.style.opacity = '1';
                 },
                 onFailed: (error) => {
-                    showToast("网络异常，请重试");
+                    showToast("网络异常，请重试", "Network error, please try again.");
                     btn.innerText = '提交至大屏 / Submit';
                     btn.style.opacity = '1';
                 }
